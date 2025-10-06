@@ -1,0 +1,12 @@
+//
+//  StaticExercises.json
+//  TrainingPlans
+//
+//  Created by Никита Гуляев on 06.10.2025.
+//
+
+[
+  { "id": "squat", "name": "Squat" },
+  { "id": "bench", "name": "Bench Press" },
+  { "id": "deadlift", "name": "Deadlift" }
+]
