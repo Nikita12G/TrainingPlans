@@ -6,7 +6,13 @@
 //
 
 import Foundation
-// TODO: - Здесь должен быть комментарий почему так делать нельзя!
+
+protocol PlanStoreProtocol {
+    func fetchPlans(completion: @escaping (Result<[Plan], Error>) -> Void)
+    func savePlan(_ plan: Plan, completion: @escaping (Result<Void, Error>) -> Void)
+    func deletePlan(id: UUID, completion: @escaping (Result<Void, Error>) -> Void)
+}
+
 final class UserDefaultsPlanStore: PlanStoreProtocol {
     private let key = "plans_storage_v1"
     private let queue = DispatchQueue(label: "UserDefaultsPlanStore.queue", qos: .background)
@@ -19,9 +25,13 @@ final class UserDefaultsPlanStore: PlanStoreProtocol {
             }
             do {
                 let plans = try JSONDecoder().decode([Plan].self, from: data)
-                DispatchQueue.main.async { completion(.success(plans)) }
+                DispatchQueue.main.async {
+                    completion(.success(plans))
+                }
             } catch {
-                DispatchQueue.main.async { completion(.failure(error)) }
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
             }
         }
     }

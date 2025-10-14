@@ -11,7 +11,11 @@ final class PlanDetailVM {
     let plan: Plan
     var onStart: (() -> Void)?
 
-    init(plan: Plan) { self.plan = plan }
+    init(plan: Plan) {
+        self.plan = plan
+    }
 
-    func startTapped() { onStart?() }
+    func startTapped() {
+        onStart?()
+    }
 }

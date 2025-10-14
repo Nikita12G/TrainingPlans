@@ -11,32 +11,45 @@ final class ExecutionCoordinator {
     private let navigationController: UINavigationController
     private let container: AppContainer
     private let plan: Plan
-
+    
+    private let executionVM: ExecutionVM
+    private let executionVC: ExecutionVC
+    
+    
+    var didFinish: (() -> Void)?
+    
+    private var record: ExecutionRecord?
+    
     init(navigationController: UINavigationController, container: AppContainer, plan: Plan) {
         self.navigationController = navigationController
         self.container = container
         self.plan = plan
+        self.executionVM = ExecutionVM(plan: plan)
+        self.executionVC = ExecutionVC(viewModel: executionVM)
     }
-
-    func startFromDetail() {
-        let vm = PlanDetailVM(plan: plan)
-        let vc = PlanDetailVC(viewModel: vm)
-        vm.onStart = { [weak self] in
-            self?.startExecution()
+    
+    func start() {
+        executionVM.onUpdate = { [weak self] in
+            self?.executionVC.updateUI()
         }
         
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    private func startExecution() {
-        let vm = ExecutionVM(plan: plan)
-        let vc = ExecutionVC(viewModel: vm)
-        vm.onFinish = { [weak self] record in
-            // For now just pop to root and log
-            print("Execution finished: \(record)")
-            self?.navigationController.popToRootViewController(animated: true)
+        executionVM.onFinish = { [weak self] record in
+            self?.showSummary(record: record)
         }
         
-        navigationController.pushViewController(vc, animated: true)
+        navigationController.pushViewController(executionVC, animated: true)
+    }
+    
+    private func showSummary(record: ExecutionRecord) {
+        self.record = record
+        let executionSummaryVM = ExecutionSummaryVM(record: record)
+        let executionSummaryVC = ExecutionSummaryVC(viewModel: executionSummaryVM)
+        
+        executionSummaryVM.onDone = { [weak self] in
+            print("Save record: \(record)")
+            self?.didFinish?()
+        }
+        
+        navigationController.pushViewController(executionSummaryVC, animated: true)
     }
 }

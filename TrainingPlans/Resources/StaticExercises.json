@@ -1,12 +1,31 @@
-//
-//  StaticExercises.json
-//  TrainingPlans
-//
-//  Created by Никита Гуляев on 06.10.2025.
-//
-
 [
-  { "id": "squat", "name": "Squat" },
-  { "id": "bench", "name": "Bench Press" },
-  { "id": "deadlift", "name": "Deadlift" }
+  { "id": "squat", "name": "Приседания" },
+  { "id": "pushup", "name": "Отжимания" },
+  { "id": "plank", "name": "Планка" },
+  { "id": "lunge", "name": "Выпады" },
+  { "id": "crunch", "name": "Скручивания" },
+  { "id": "jumping_jacks", "name": "Прыжки джампинг джек" },
+  { "id": "bridge", "name": "Мостик" },
+  { "id": "leg_raise", "name": "Подъем ног" },
+  { "id": "superman", "name": "Супермен" },
+  { "id": "burpee", "name": "Берпи" },
+  { "id": "mountain_climber", "name": "Скалолаз" },
+  { "id": "twist", "name": "Скручивания" },
+  { "id": "wall_sit", "name": "Стульчик у стены" },
+  { "id": "high_knees", "name": "Бег на месте с высоким подниманием бедра" },
+  { "id": "butt_kicks", "name": "Бег на месте с захлестом голени" },
+  { "id": "arm_circles", "name": "Вращения руками" },
+  { "id": "triceps_dip", "name": "Отжимания на трицепс" },
+  { "id": "side_plank", "name": "Боковая планка" },
+  { "id": "calf_raises", "name": "Подъем на носки" },
+  { "id": "glute_bridge", "name": "Ягодичный мостик" },
+  { "id": "bird_dog", "name": "Птица-собака" },
+  { "id": "dead_bug", "name": "Мертвый жук" },
+  { "id": "sit_ups", "name": "Подъем корпуса" },
+  { "id": "jump_rope", "name": "Прыжки на скакалке" },
+  { "id": "side_lunge", "name": "Боковые выпады" },
+  { "id": "arm_raises", "name": "Подъемы рук" },
+  { "id": "shoulder_taps", "name": "Касания плеч в планке" },
+  { "id": "squat_jump", "name": "Прыжки из приседа" },
+  { "id": "reverse_crunch", "name": "Обратные скручивания" }
 ]

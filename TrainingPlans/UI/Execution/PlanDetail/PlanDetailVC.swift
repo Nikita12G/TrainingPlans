@@ -9,6 +9,7 @@ import UIKit
 
 final class PlanDetailVC: UIViewController {
     private let viewModel: PlanDetailVM
+    private lazy var label = UILabel()
 
     init(viewModel: PlanDetailVM) {
         self.viewModel = viewModel
@@ -20,16 +21,24 @@ final class PlanDetailVC: UIViewController {
         super.viewDidLoad()
         title = "Plan"
         view.backgroundColor = .white
-        let label = UILabel()
+        
         label.text = "Plan: \(viewModel.plan.title)"
         label.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(label)
+        
         NSLayoutConstraint.activate([
             label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Start", style: .done, target: self, action: #selector(startTapped))
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "Start",
+            style: .done,
+            target: self,
+            action: #selector(startTapped))
     }
 
-    @objc private func startTapped() { viewModel.startTapped() }
+    @objc private func startTapped() {
+        viewModel.startTapped()
+    }
 }

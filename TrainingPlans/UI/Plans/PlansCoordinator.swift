@@ -11,6 +11,9 @@ final class PlansCoordinator {
     private let navigationController: UINavigationController
     private let container: AppContainer
 
+    private var childCoordinators: [ExecutionCoordinator] = []
+    private var wizardDraft: Plan?
+
     init(navigationController: UINavigationController, container: AppContainer) {
         self.navigationController = navigationController
         self.container = container
@@ -18,47 +21,106 @@ final class PlansCoordinator {
 
     func start() {
         let vm = PlansListVM(planStore: container.planStore)
+        vm.onCreatePlan = { [weak self] in
+            self?.showWizard()
+        }
+        
+        vm.onSelectPlan = { [weak self] plan in
+            self?.showPlanDetail(plan: plan)
+        }
+        
         let vc = PlansListVC(viewModel: vm)
-        vm.onCreatePlan = { [weak self] in self?.showWizard() }
-        vm.onSelectPlan = { [weak self] plan in self?.showPlanDetail(plan: plan) }
         navigationController.setViewControllers([vc], animated: false)
     }
 
     private func showWizard(draft: Plan? = nil) {
-        let vm = PlanWizardNameVM(draft: draft ?? Plan(), planStore: container.planStore)
-        let vc = PlanWizardNameVC(viewModel: vm)
+        let currentDraft = draft ?? Plan()
+        wizardDraft = currentDraft
+        
+        let vm = PlanWizardNameVM(draft: currentDraft, planStore: container.planStore)
         vm.onNext = { [weak self] draftPlan in
-            self?.showExercisesWizard(draft: draftPlan)
+            self?.wizardDraft = draftPlan
+            self?.showExercisesWizard()
         }
-        navigationController.pushViewController(vc, animated: true)
+        
+        let vc = PlanWizardNameVC(viewModel: vm)
+        
+        if let existingVC = navigationController.viewControllers.first(where: { $0 is PlanWizardNameVC }) {
+            navigationController.popToViewController(existingVC, animated: true)
+        } else {
+            navigationController.pushViewController(vc, animated: true)
+        }
     }
 
-    private func showExercisesWizard(draft: Plan) {
+    private func showExercisesWizard() {
+        guard let draft = wizardDraft else { return }
+        
         let vm = PlanWizardExercisesVM(draft: draft)
-        let vc = PlanWizardExercisesVC(viewModel: vm)
         vm.onNext = { [weak self] updatedDraft in
-            self?.showSummary(draft: updatedDraft)
+            self?.wizardDraft = updatedDraft
+            self?.showSummary()
         }
-        navigationController.pushViewController(vc, animated: true)
+        
+        let vc = PlanWizardExercisesVC(viewModel: vm)
+        
+        if let existingVC = navigationController.viewControllers.first(where: { $0 is PlanWizardExercisesVC }) {
+            navigationController.popToViewController(existingVC, animated: true)
+        } else {
+            navigationController.pushViewController(vc, animated: true)
+        }
     }
 
-    private func showSummary(draft: Plan) {
+    private func showSummary() {
+        guard let draft = wizardDraft else { return }
+        
         let vm = PlanSummaryVM(draft: draft, planStore: container.planStore)
-        let vc = PlanSummaryVC(viewModel: vm)
         vm.onEditName = { [weak self] draftPlan in
+            self?.wizardDraft = draftPlan
             self?.showWizard(draft: draftPlan)
         }
+        
         vm.onEditExercises = { [weak self] draftPlan in
-            self?.showExercisesWizard(draft: draftPlan)
+            self?.wizardDraft = draftPlan
+            self?.showExercisesWizard()
         }
+        
         vm.onSaved = { [weak self] in
+            self?.wizardDraft = nil
             self?.navigationController.popToRootViewController(animated: true)
         }
-        navigationController.pushViewController(vc, animated: true)
+        
+        let vc = PlanSummaryVC(viewModel: vm)
+        
+        if let existingVC = navigationController.viewControllers.first(where: { $0 is PlanSummaryVC }) {
+            navigationController.popToViewController(existingVC, animated: true)
+        } else {
+            navigationController.pushViewController(vc, animated: true)
+        }
     }
 
     private func showPlanDetail(plan: Plan) {
-        let coord = ExecutionCoordinator(navigationController: navigationController, container: container, plan: plan)
-        coord.startFromDetail()
+        let vm = PlanDetailVM(plan: plan)
+        let vc = PlanDetailVC(viewModel: vm)
+
+        vm.onStart = { [weak self] in
+            guard let self = self else { return }
+
+            let execCoord = ExecutionCoordinator(
+                navigationController: self.navigationController,
+                container: self.container,
+                plan: plan
+            )
+
+            self.childCoordinators.append(execCoord)
+
+            execCoord.didFinish = { [weak self] in
+                self?.childCoordinators.removeAll { $0 === execCoord }
+                self?.navigationController.popToRootViewController(animated: true)
+            }
+
+            execCoord.start()
+        }
+
+        navigationController.pushViewController(vc, animated: true)
     }
 }

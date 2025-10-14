@@ -55,9 +55,9 @@ extension PlanWizardExercisesVC: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let id = viewModel.availableExercises[indexPath.row]
-        cell.textLabel?.text = id.capitalized
-        cell.accessoryType = viewModel.draft.exercises.contains(where: { $0.exerciseId == id }) ? .checkmark : .none
+        let exercises = viewModel.availableExercises[indexPath.row]
+        cell.textLabel?.text = exercises.name
+        cell.accessoryType = viewModel.draft.exercises.contains(where: { $0.exerciseId == exercises.id }) ? .checkmark : .none
         return cell
     }
 }
@@ -65,8 +65,8 @@ extension PlanWizardExercisesVC: UITableViewDataSource {
 extension PlanWizardExercisesVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let id = viewModel.availableExercises[indexPath.row]
-        viewModel.toggleExercise(id: id)
+        let exercise = viewModel.availableExercises[indexPath.row]
+        viewModel.toggleExercise(exercise: exercise)
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }
