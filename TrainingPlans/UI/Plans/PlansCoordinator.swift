@@ -44,12 +44,7 @@ final class PlansCoordinator {
         }
         
         let vc = PlanWizardNameVC(viewModel: vm)
-        
-        if let existingVC = navigationController.viewControllers.first(where: { $0 is PlanWizardNameVC }) {
-            navigationController.popToViewController(existingVC, animated: true)
-        } else {
-            navigationController.pushViewController(vc, animated: true)
-        }
+        navigationController.pushViewController(vc, animated: true)
     }
 
     private func showExercisesWizard() {
@@ -62,26 +57,20 @@ final class PlansCoordinator {
         }
         
         let vc = PlanWizardExercisesVC(viewModel: vm)
-        
-        if let existingVC = navigationController.viewControllers.first(where: { $0 is PlanWizardExercisesVC }) {
-            navigationController.popToViewController(existingVC, animated: true)
-        } else {
-            navigationController.pushViewController(vc, animated: true)
-        }
+        navigationController.pushViewController(vc, animated: true)
     }
 
     private func showSummary() {
         guard let draft = wizardDraft else { return }
         
         let vm = PlanSummaryVM(draft: draft, planStore: container.planStore)
+        
         vm.onEditName = { [weak self] draftPlan in
-            self?.wizardDraft = draftPlan
-            self?.showWizard(draft: draftPlan)
+            self?.showEditNameAlert(draft: draftPlan)
         }
         
         vm.onEditExercises = { [weak self] draftPlan in
-            self?.wizardDraft = draftPlan
-            self?.showExercisesWizard()
+            self?.showEditExercisesAlert(draft: draftPlan)
         }
         
         vm.onSaved = { [weak self] in
@@ -90,11 +79,71 @@ final class PlansCoordinator {
         }
         
         let vc = PlanSummaryVC(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    private func showEditNameAlert(draft: Plan) {
+        let alert = UIAlertController(
+            title: "Изменить название",
+            message: "Введите новое название плана",
+            preferredStyle: .alert
+        )
         
-        if let existingVC = navigationController.viewControllers.first(where: { $0 is PlanSummaryVC }) {
-            navigationController.popToViewController(existingVC, animated: true)
-        } else {
-            navigationController.pushViewController(vc, animated: true)
+        alert.addTextField { textField in
+            textField.text = draft.title
+            textField.placeholder = "Название плана"
+        }
+        
+        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { [weak self] _ in
+            guard let newName = alert.textFields?.first?.text, !newName.isEmpty else { return }
+            var updatedDraft = draft
+            updatedDraft.title = newName
+            self?.wizardDraft = updatedDraft
+            // Обновляем текущий экран summary
+            self?.refreshSummaryScreen()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
+        
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        
+        navigationController.present(alert, animated: true)
+    }
+
+    private func showEditExercisesAlert(draft: Plan) {
+        let alert = UIAlertController(
+            title: "Изменить упражнения",
+            message: "Что вы хотите сделать?",
+            preferredStyle: .actionSheet
+        )
+        
+        let editExercisesAction = UIAlertAction(title: "Редактировать упражнения", style: .default) { [weak self] _ in
+            guard let currentDraft = self?.wizardDraft else { return }
+            self?.wizardDraft = currentDraft
+            self?.navigationController.popViewController(animated: true)
+        }
+        
+        let addExerciseAction = UIAlertAction(title: "Добавить упражнение", style: .default) { [weak self] _ in
+            guard let currentDraft = self?.wizardDraft else { return }
+            self?.wizardDraft = currentDraft
+            self?.showExercisesWizard()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
+        
+        alert.addAction(editExercisesAction)
+        alert.addAction(addExerciseAction)
+        alert.addAction(cancelAction)
+
+        navigationController.present(alert, animated: true)
+    }
+
+    private func refreshSummaryScreen() {
+        if let summaryVC = navigationController.viewControllers.last as? PlanSummaryVC,
+           let draft = wizardDraft {
+            summaryVC.viewModel.updateDraft(draft)
+            summaryVC.refresh()
         }
     }
 

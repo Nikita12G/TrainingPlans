@@ -8,7 +8,7 @@
 import UIKit
 
 final class PlanSummaryVC: UIViewController {
-    private let viewModel: PlanSummaryVM
+    let viewModel: PlanSummaryVM
     
     private lazy var summaryLabel: UILabel = {
         let label = UILabel()
@@ -75,7 +75,7 @@ final class PlanSummaryVC: UIViewController {
         refresh()
     }
 
-    private func refresh() {
+    func refresh() {
         let text = "Title: \(viewModel.draft.title)\nGoal: \(viewModel.draft.goal)\nExercises: \(viewModel.draft.exercises.map { $0.name }.joined(separator: ", "))"
         summaryLabel.text = text
     }
