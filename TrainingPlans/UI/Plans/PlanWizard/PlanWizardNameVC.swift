@@ -20,15 +20,15 @@ final class PlanWizardNameVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Step 1 — Name"
+        title = "Шаг 1 — Название"
         view.backgroundColor = .systemYellow
         setupFields()
         setupNext()
     }
 
     private func setupFields() {
-        titleField.placeholder = "Plan title"
-        goalField.placeholder = "Goal"
+        titleField.placeholder = "Название тренировки"
+        goalField.placeholder = "Целевая группа мышц"
         titleField.borderStyle = .roundedRect
         goalField.borderStyle = .roundedRect
         let stack = UIStackView(arrangedSubviews: [titleField, goalField])
@@ -44,7 +44,8 @@ final class PlanWizardNameVC: UIViewController {
     }
 
     private func setupNext() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(nextTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Дальше", style: .done, target: self, action: #selector(nextTapped))
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Назад", style: .plain, target: nil, action: nil)
     }
 
     @objc private func nextTapped() {

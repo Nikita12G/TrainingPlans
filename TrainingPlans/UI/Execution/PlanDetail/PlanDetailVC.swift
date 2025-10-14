@@ -19,10 +19,10 @@ final class PlanDetailVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Plan"
+        title = "План"
         view.backgroundColor = .white
         
-        label.text = "Plan: \(viewModel.plan.title)"
+        label.text = "План: \(viewModel.plan.title)"
         label.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(label)
         
@@ -32,7 +32,7 @@ final class PlanDetailVC: UIViewController {
         ])
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Start",
+            title: "Старт",
             style: .done,
             target: self,
             action: #selector(startTapped))

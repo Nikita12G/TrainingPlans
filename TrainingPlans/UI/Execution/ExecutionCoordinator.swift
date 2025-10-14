@@ -24,7 +24,9 @@ final class ExecutionCoordinator {
         self.navigationController = navigationController
         self.container = container
         self.plan = plan
-        self.executionVM = ExecutionVM(plan: plan)
+        self.executionVM = ExecutionVM(
+            plan: plan,
+            exercisesDataProvider: container.exerciseStore)
         self.executionVC = ExecutionVC(viewModel: executionVM)
     }
     
@@ -42,11 +44,13 @@ final class ExecutionCoordinator {
     
     private func showSummary(record: ExecutionRecord) {
         self.record = record
-        let executionSummaryVM = ExecutionSummaryVM(record: record)
+        let executionSummaryVM = ExecutionSummaryVM(
+            record: record,
+            exercises: container.exerciseStore)
         let executionSummaryVC = ExecutionSummaryVC(viewModel: executionSummaryVM)
         
         executionSummaryVM.onDone = { [weak self] in
-            print("Save record: \(record)")
+            print("Сохранена тренировка: \(record)")
             self?.didFinish?()
         }
         

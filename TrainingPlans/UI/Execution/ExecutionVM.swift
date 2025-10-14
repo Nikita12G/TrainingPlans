@@ -9,7 +9,8 @@ import Foundation
 
 final class ExecutionVM {
     let plan: Plan
-    
+    private var exercises: [Exercise]
+
     private(set) var currentIndex: Int = 0
     private(set) var results: [ExerciseResult]
     
@@ -24,13 +25,10 @@ final class ExecutionVM {
         plan.exercises[currentIndex].exerciseId
     }
     
-    var currentExerciseName: String {
-        StaticExercisesLoader.load().first(where: { $0.id == currentExerciseId })?.name ?? currentExerciseId
-    }
-    
-    init(plan: Plan) {
+    init(plan: Plan, exercisesDataProvider: ExercisesDataProvider) {
         self.plan = plan
         self.results = plan.exercises.map { ExerciseResult(exerciseId: $0.exerciseId) }
+        self.exercises = exercisesDataProvider.allExercises()
     }
     
     func recordSet(reps: Int, weight: Double) {
@@ -46,6 +44,11 @@ final class ExecutionVM {
         } else {
             finish()
         }
+    }
+    
+    
+    func exercise() -> Exercise? {
+        return exercises.first { $0.id == currentExerciseId }
     }
     
     private func finish() {

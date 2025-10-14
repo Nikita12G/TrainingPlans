@@ -13,30 +13,31 @@ final class ExecutionVC: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.numberOfLines = 0
         return label
     }()
     private lazy var resultsTextView = UITextView()
     private lazy var repsField: UITextField = {
         let field = UITextField()
-        field.placeholder = "Reps"
+        field.placeholder = "Повторения"
         field.keyboardType = .numberPad
         return field
     }()
     private lazy var weightField: UITextField = {
         let field = UITextField()
-        field.placeholder = "Weight (kg)"
+        field.placeholder = "Вес (кг)"
         field.keyboardType = .decimalPad
         return field
     }()
     private lazy var addSetButton: UIButton = {
        let button = UIButton(type: .system)
-        button.setTitle("Add Set", for: .normal)
+        button.setTitle("Добавить подход", for: .normal)
         button.addTarget(self, action: #selector(addSetTapped), for: .touchUpInside)
         return button
     }()
     private lazy var nextButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Next Exercise →", for: .normal)
+        button.setTitle("Следующее упражнение →", for: .normal)
         button.addTarget(self, action: #selector(nextTapped), for: .touchUpInside)
         return button
     }()
@@ -66,7 +67,7 @@ final class ExecutionVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        title = "Exercise"
+        title = "Упражнения"
         view.addSubview(stackView)
         
         NSLayoutConstraint.activate([
@@ -86,16 +87,16 @@ final class ExecutionVC: UIViewController {
     }
     
     func updateUI() {
-        titleLabel.text = "Exercise: \(viewModel.currentExerciseName)"
+        titleLabel.text = "Текущее упрежнение: \(viewModel.exercise()?.name ?? "Без названия")"
         
         _ = viewModel.currentExercise
         var summary = ""
         if let result = viewModel.resultsForCurrentExercise {
             for (i, set) in result.sets.enumerated() {
-                summary += "Set \(i + 1): \(set.reps)x\(set.weight)kg\n"
+                summary += "Подход \(i + 1): \(set.reps)x\(set.weight)кг\n"
             }
         }
-        resultsTextView.text = summary.isEmpty ? "No sets yet." : summary
+        resultsTextView.text = summary.isEmpty ? "Ни одного подхода не выполнено." : summary
     }
     
     @objc private func addSetTapped() {

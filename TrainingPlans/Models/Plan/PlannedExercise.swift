@@ -17,8 +17,4 @@ struct PlannedExercise: Codable, Equatable, Identifiable {
         self.exerciseId = exerciseId
         self.sets = sets
     }
-    
-    var name: String {
-        StaticExercisesLoader.load().first(where: { $0.id == exerciseId })?.name ?? "Unknown exercise"
-    }
 }

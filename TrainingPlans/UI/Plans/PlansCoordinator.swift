@@ -50,7 +50,9 @@ final class PlansCoordinator {
     private func showExercisesWizard() {
         guard let draft = wizardDraft else { return }
         
-        let vm = PlanWizardExercisesVM(draft: draft)
+        let vm = PlanWizardExercisesVM(
+            draft: draft,
+            exercisesDataProvider: container.exerciseStore)
         vm.onNext = { [weak self] updatedDraft in
             self?.wizardDraft = updatedDraft
             self?.showSummary()
@@ -63,7 +65,11 @@ final class PlansCoordinator {
     private func showSummary() {
         guard let draft = wizardDraft else { return }
         
-        let vm = PlanSummaryVM(draft: draft, planStore: container.planStore)
+        let vm = PlanSummaryVM(
+            draft: draft,
+            planStore: container.planStore,
+            exercisesDataProvider: container.exerciseStore
+        )
         
         vm.onEditName = { [weak self] draftPlan in
             self?.showEditNameAlert(draft: draftPlan)
@@ -98,8 +104,8 @@ final class PlansCoordinator {
             guard let newName = alert.textFields?.first?.text, !newName.isEmpty else { return }
             var updatedDraft = draft
             updatedDraft.title = newName
+            
             self?.wizardDraft = updatedDraft
-            // Обновляем текущий экран summary
             self?.refreshSummaryScreen()
         }
         

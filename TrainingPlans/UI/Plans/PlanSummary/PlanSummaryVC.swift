@@ -18,19 +18,19 @@ final class PlanSummaryVC: UIViewController {
     }()
     private lazy var editNameButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Edit Name", for: .normal)
+        button.setTitle("Изменить название", for: .normal)
         button.addTarget(self, action: #selector(editNameTapped), for: .touchUpInside)
         return button
     }()
     private lazy var editExercisesButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Edit Exercises", for: .normal)
+        button.setTitle("Изменить упражнения", for: .normal)
         button.addTarget(self, action: #selector(editExercisesTapped), for: .touchUpInside)
         return button
     }()
     private lazy var saveButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Save Plan", for: .normal)
+        button.setTitle("Сохранить план", for: .normal)
         button.addTarget(self, action: #selector(saveTapped), for: .touchUpInside)
         return button
     }()
@@ -39,7 +39,7 @@ final class PlanSummaryVC: UIViewController {
         let stack = UIStackView(
             arrangedSubviews: [editNameButton, editExercisesButton, saveButton])
         stack.axis = .vertical
-        stack.spacing = 12
+        stack.spacing = 5
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -53,8 +53,8 @@ final class PlanSummaryVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Summary"
-        view.backgroundColor = .systemGray
+        title = "Результат"
+        view.backgroundColor = .lightGray
         view.addSubview(summaryLabel)
         view.addSubview(stackView)
         
@@ -76,7 +76,7 @@ final class PlanSummaryVC: UIViewController {
     }
 
     func refresh() {
-        let text = "Title: \(viewModel.draft.title)\nGoal: \(viewModel.draft.goal)\nExercises: \(viewModel.draft.exercises.map { $0.name }.joined(separator: ", "))"
+        let text = "Тренировка: \(viewModel.draft.title)\nГруппа мышц: \(viewModel.draft.goal)\nУпражнения: \(viewModel.draft.exercises.map { "\n    ✅ \(viewModel.exercise(with: $0.exerciseId)?.name ?? "без названия")" }.joined(separator: ", "))"
         summaryLabel.text = text
     }
 

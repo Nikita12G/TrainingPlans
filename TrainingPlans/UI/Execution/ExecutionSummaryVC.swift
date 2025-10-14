@@ -17,7 +17,7 @@ final class ExecutionSummaryVC: UIViewController {
     }()
     private lazy var doneButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Done", for: .normal)
+        button.setTitle("Готово", for: .normal)
         button.addTarget(self, action: #selector(doneTapped), for: .touchUpInside)
         return button
     }()
@@ -38,7 +38,7 @@ final class ExecutionSummaryVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Summary"
+        title = "Результат"
         view.backgroundColor = .systemBackground
         
         view.addSubview(stackView)
@@ -54,19 +54,19 @@ final class ExecutionSummaryVC: UIViewController {
     }
     
     private func setUpUI() {
-        let exercises = StaticExercisesLoader.load()
+        let exercises = viewModel.exercises
         
         let summaryLines = viewModel.record.results.map { exerciseResult in
             let exerciseName = exercises.first { $0.id == exerciseResult.exerciseId }?.name ?? exerciseResult.exerciseId
             
             let setsText = exerciseResult.sets.enumerated().map { index, set in
-                "  Set \(index + 1): \(set.reps)x\(set.weight)kg"
+                "  Подход \(index + 1): \(set.reps)x\(set.weight)kg"
             }.joined(separator: "\n")
             
             return "\(exerciseName):\n\(setsText)"
         }
         
-        let fullText = ["Workout Summary", ""] + summaryLines + [""]
+        let fullText = ["Результат тренировки", ""] + summaryLines + [""]
         resultLabel.text = fullText.joined(separator: "\n")
         
         stackView.addArrangedSubview(resultLabel)

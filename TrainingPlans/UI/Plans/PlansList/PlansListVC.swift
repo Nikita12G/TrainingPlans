@@ -21,18 +21,20 @@ final class PlansListVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Plans"
+        title = "Планы тренировок"
         view.backgroundColor = .systemBackground
         view.addSubview(tableView)
         
-        setupTable()
-        setupNavBar()
         viewModel.onPlansUpdated = { [weak self] _ in
             self?.tableView.reloadData()
         }
         viewModel.onError = { error in
             print(error)
         }
+        
+        setupTable()
+        setupNavBar()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,6 +48,7 @@ final class PlansListVC: UIViewController {
             style: .done,
             target: self,
             action: #selector(newTapped))
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Назад", style: .plain, target: nil, action: nil)
     }
     
     private func setupTable() {
@@ -82,7 +85,7 @@ extension PlansListVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let plan = viewModel.plans[indexPath.row]
-        cell.textLabel?.text = plan.title.isEmpty ? "Untitled" : plan.title
+        cell.textLabel?.text = plan.title.isEmpty ? "Без названия" : plan.title
         cell.accessoryType = .disclosureIndicator
         return cell
     }

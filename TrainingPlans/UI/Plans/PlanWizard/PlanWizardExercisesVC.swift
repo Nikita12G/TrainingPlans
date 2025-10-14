@@ -19,7 +19,7 @@ final class PlanWizardExercisesVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Step 2 — Exercises"
+        title = "Шаг 2 — Упражнения"
         view.backgroundColor = .systemGreen
         setupTable()
         setupNext()
@@ -40,7 +40,7 @@ final class PlanWizardExercisesVC: UIViewController {
     }
 
     private func setupNext() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(nextTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Дальше", style: .done, target: self, action: #selector(nextTapped))
     }
 
     @objc private func nextTapped() {

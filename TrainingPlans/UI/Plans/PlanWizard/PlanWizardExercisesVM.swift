@@ -8,13 +8,14 @@
 import Foundation
 
 final class PlanWizardExercisesVM {
+    let availableExercises: [Exercise]
+    
     var draft: Plan
     var onNext: ((Plan) -> Void)?
 
-    let availableExercises = StaticExercisesLoader.load()
-
-    init(draft: Plan) {
+    init(draft: Plan, exercisesDataProvider: ExercisesDataProvider) {
         self.draft = draft
+        self.availableExercises = exercisesDataProvider.allExercises()
     }
 
     func toggleExercise(exercise: Exercise) {

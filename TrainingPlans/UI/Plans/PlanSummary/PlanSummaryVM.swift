@@ -10,7 +10,8 @@ import Foundation
 final class PlanSummaryVM {
     private(set) var draft: Plan 
     private let planStore: PlanStoreProtocol
-    
+    private var exercises: [Exercise]
+
     var onEditName: ((Plan) -> Void)?
     var onEditExercises: ((Plan) -> Void)?
     var onSaved: (() -> Void)?
@@ -23,9 +24,10 @@ final class PlanSummaryVM {
         draft.exercises.count
     }
     
-    init(draft: Plan, planStore: PlanStoreProtocol) {
+    init(draft: Plan, planStore: PlanStoreProtocol, exercisesDataProvider: ExercisesDataProvider) {
         self.draft = draft
         self.planStore = planStore
+        self.exercises = exercisesDataProvider.allExercises()
     }
     
     func editName() {
@@ -43,7 +45,7 @@ final class PlanSummaryVM {
                 case .success:
                     self?.onSaved?()
                 case .failure(let error):
-                    print("Error saving plan: \(error)")
+                    print("Ошибка сохранения плана: \(error)")
                 }
             }
         }
@@ -51,5 +53,9 @@ final class PlanSummaryVM {
     
     func updateDraft(_ newDraft: Plan) {
         self.draft = newDraft
+    }
+    
+    func exercise(with id: String) -> Exercise? {
+        return exercises.first { $0.id == id }
     }
 }
