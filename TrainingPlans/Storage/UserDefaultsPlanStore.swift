@@ -16,8 +16,42 @@ protocol PlanStoreProtocol {
 final class UserDefaultsPlanStore: PlanStoreProtocol {
     private let key = "plans_storage_v1"
     private let queue = DispatchQueue(label: "UserDefaultsPlanStore.queue", qos: .background)
+    private var cachedPlans: [Plan] = []
+    private var isInitialized = false
+
+    // MARK: - Public API
+
+    func preloadData(completion: @escaping (Bool) -> Void) {
+        queue.async {
+            guard let data = UserDefaults.standard.data(forKey: self.key) else {
+                self.cachedPlans = []
+                self.isInitialized = true
+                DispatchQueue.main.async { completion(true) }
+                return
+            }
+            do {
+                let plans = try JSONDecoder().decode([Plan].self, from: data)
+                self.cachedPlans = plans
+                self.isInitialized = true
+                DispatchQueue.main.async {
+                    print("Предварительно загружено \(plans.count) планов из UserDefaults")
+                    completion(true)
+                }
+            } catch {
+                print("Ошибка декодирования планов: \(error)")
+                self.cachedPlans = []
+                self.isInitialized = true
+                DispatchQueue.main.async { completion(false) }
+            }
+        }
+    }
 
     func fetchPlans(completion: @escaping (Result<[Plan], Error>) -> Void) {
+        if isInitialized {
+            completion(.success(cachedPlans))
+            return
+        }
+
         queue.async {
             guard let data = UserDefaults.standard.data(forKey: self.key) else {
                 DispatchQueue.main.async { completion(.success([])) }
@@ -25,13 +59,11 @@ final class UserDefaultsPlanStore: PlanStoreProtocol {
             }
             do {
                 let plans = try JSONDecoder().decode([Plan].self, from: data)
-                DispatchQueue.main.async {
-                    completion(.success(plans))
-                }
+                self.cachedPlans = plans
+                self.isInitialized = true
+                DispatchQueue.main.async { completion(.success(plans)) }
             } catch {
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
+                DispatchQueue.main.async { completion(.failure(error)) }
             }
         }
     }
@@ -45,6 +77,7 @@ final class UserDefaultsPlanStore: PlanStoreProtocol {
                 } else {
                     plans.append(plan)
                 }
+                self.cachedPlans = plans
                 do {
                     let data = try JSONEncoder().encode(plans)
                     UserDefaults.standard.set(data, forKey: self.key)
@@ -63,6 +96,7 @@ final class UserDefaultsPlanStore: PlanStoreProtocol {
             switch result {
             case .success(var plans):
                 plans.removeAll { $0.id == id }
+                self.cachedPlans = plans
                 do {
                     let data = try JSONEncoder().encode(plans)
                     UserDefaults.standard.set(data, forKey: self.key)

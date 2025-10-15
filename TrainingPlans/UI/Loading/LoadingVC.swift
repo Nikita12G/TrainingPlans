@@ -1,10 +1,17 @@
+//
+//  LoadingVC.swift
+//  TrainingPlans
+//
+//  Created by Никита Гуляев on 06.10.2025.
+//
+
 import UIKit
 
 final class LoadingVC: UIViewController {
     private lazy var activity = UIActivityIndicatorView(style: .large)
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("loading_title", comment: "")
+        label.text = "Загрузка данных..."
         label.font = .systemFont(ofSize: 20, weight: .semibold)
         label.textAlignment = .center
         return label

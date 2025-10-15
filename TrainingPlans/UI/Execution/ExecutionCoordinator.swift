@@ -26,7 +26,7 @@ final class ExecutionCoordinator {
         self.plan = plan
         self.executionVM = ExecutionVM(
             plan: plan,
-            exercisesDataProvider: container.exerciseStore)
+            exercisesDataProvider: container.exercisesStore)
         self.executionVC = ExecutionVC(viewModel: executionVM)
     }
     
@@ -46,7 +46,7 @@ final class ExecutionCoordinator {
         self.record = record
         let executionSummaryVM = ExecutionSummaryVM(
             record: record,
-            exercises: container.exerciseStore)
+            exercises: container.exercisesStore)
         let executionSummaryVC = ExecutionSummaryVC(viewModel: executionSummaryVM)
         
         executionSummaryVM.onDone = { [weak self] in

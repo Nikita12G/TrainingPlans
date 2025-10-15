@@ -15,10 +15,9 @@ final class ExercisesDataProvider {
 
     init(service: ExercisesServiceProtocol) {
         self.service = service
-        initializeData()
     }
 
-    func initializeData() {
+    func initialiseData() {
         print("Инициализация ExercisesDataProvider...")
         if let cached = loadFromCache(), !cached.isEmpty {
             self.exercises = cached

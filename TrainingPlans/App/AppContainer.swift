@@ -8,8 +8,14 @@
 import Foundation
 
 final class AppContainer {
-    lazy var planStore: PlanStoreProtocol = UserDefaultsPlanStore()
-    lazy var exerciseService = ExercisesService()
-    lazy var exerciseStore: ExercisesDataProvider = ExercisesDataProvider(
-        service: exerciseService)
+    let planStore: PlanStoreProtocol
+    let exercisesService: ExercisesServiceProtocol
+    let exercisesStore: ExercisesDataProvider
+
+    init() {
+        let service = ExercisesService()
+        self.exercisesService = service
+        self.planStore = UserDefaultsPlanStore()
+        self.exercisesStore = ExercisesDataProvider(service: service)
+    }
 }

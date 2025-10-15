@@ -32,7 +32,9 @@ final class PlansCoordinator {
         let vc = PlansListVC(viewModel: vm)
         navigationController.setViewControllers([vc], animated: false)
     }
-
+    
+    // MARK: - Private
+    
     private func showWizard(draft: Plan? = nil) {
         let currentDraft = draft ?? Plan()
         wizardDraft = currentDraft
@@ -52,7 +54,7 @@ final class PlansCoordinator {
         
         let vm = PlanWizardExercisesVM(
             draft: draft,
-            exercisesDataProvider: container.exerciseStore)
+            exercisesDataProvider: container.exercisesStore)
         vm.onNext = { [weak self] updatedDraft in
             self?.wizardDraft = updatedDraft
             self?.showSummary()
@@ -68,8 +70,7 @@ final class PlansCoordinator {
         let vm = PlanSummaryVM(
             draft: draft,
             planStore: container.planStore,
-            exercisesDataProvider: container.exerciseStore
-        )
+            exercisesDataProvider: container.exercisesStore)
         
         vm.onEditName = { [weak self] draftPlan in
             self?.showEditNameAlert(draft: draftPlan)
@@ -92,8 +93,7 @@ final class PlansCoordinator {
         let alert = UIAlertController(
             title: "Изменить название",
             message: "Введите новое название плана",
-            preferredStyle: .alert
-        )
+            preferredStyle: .alert)
         
         alert.addTextField { textField in
             textField.text = draft.title
@@ -121,8 +121,7 @@ final class PlansCoordinator {
         let alert = UIAlertController(
             title: "Изменить упражнения",
             message: "Что вы хотите сделать?",
-            preferredStyle: .actionSheet
-        )
+            preferredStyle: .actionSheet)
         
         let editExercisesAction = UIAlertAction(title: "Редактировать упражнения", style: .default) { [weak self] _ in
             guard let currentDraft = self?.wizardDraft else { return }
