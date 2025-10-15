@@ -13,6 +13,7 @@ protocol PlanStoreProtocol {
     func deletePlan(id: UUID, completion: @escaping (Result<Void, Error>) -> Void)
 }
 
+// TODO: - Mock realisation only for tests
 final class UserDefaultsPlanStore: PlanStoreProtocol {
     private let key = "plans_storage_v1"
     private let queue = DispatchQueue(label: "UserDefaultsPlanStore.queue", qos: .background)

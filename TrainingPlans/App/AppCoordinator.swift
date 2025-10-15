@@ -18,6 +18,7 @@ final class AppCoordinator {
 
     func start() {
         showLoading()
+    // TODO: - Load imitation, only for show launch screen
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
              self.performInitialDataLoad()
          }
