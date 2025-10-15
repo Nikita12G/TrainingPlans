@@ -147,7 +147,7 @@ final class PlansCoordinator {
     private func refreshSummaryScreen() {
         if let summaryVC = navigationController.viewControllers.last as? PlanSummaryVC,
            let draft = wizardDraft {
-            summaryVC.viewModel.updateDraft(draft)
+            summaryVC.updateDraft(plan: draft)
             summaryVC.refresh()
         }
     }

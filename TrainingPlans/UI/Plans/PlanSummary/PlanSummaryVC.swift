@@ -8,7 +8,7 @@
 import UIKit
 
 final class PlanSummaryVC: UIViewController {
-    let viewModel: PlanSummaryVM
+    private let viewModel: PlanSummaryVM
     
     private lazy var summaryLabel: UILabel = {
         let label = UILabel()
@@ -78,6 +78,10 @@ final class PlanSummaryVC: UIViewController {
     func refresh() {
         let text = "Тренировка: \(viewModel.draft.title)\nГруппа мышц: \(viewModel.draft.goal)\nУпражнения: \(viewModel.draft.exercises.map { "\n    ✅ \(viewModel.exercise(with: $0.exerciseId)?.name ?? "без названия")" }.joined(separator: ", "))"
         summaryLabel.text = text
+    }
+    
+    func updateDraft(plan: Plan) {
+        viewModel.updateDraft(plan)
     }
 
     @objc private func editNameTapped() {

@@ -18,7 +18,6 @@ final class ExercisesDataProvider {
     }
 
     func initialiseData() {
-        print("Инициализация ExercisesDataProvider...")
         if let cached = loadFromCache(), !cached.isEmpty {
             self.exercises = cached
             print("Загружено \(cached.count) упражнений из кэша.")

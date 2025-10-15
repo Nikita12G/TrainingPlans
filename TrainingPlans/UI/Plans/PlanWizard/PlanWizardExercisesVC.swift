@@ -9,7 +9,15 @@ import UIKit
 
 final class PlanWizardExercisesVC: UIViewController {
     private let viewModel: PlanWizardExercisesVM
-    private lazy var tableView = UITableView()
+    
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        return tableView
+    }()
 
     init(viewModel: PlanWizardExercisesVM) {
         self.viewModel = viewModel
@@ -21,25 +29,19 @@ final class PlanWizardExercisesVC: UIViewController {
         super.viewDidLoad()
         title = "Шаг 2 — Упражнения"
         view.backgroundColor = .systemGreen
-        setupTable()
-        setupNext()
-    }
-
-    private func setupTable() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
+        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        
+        setupNavBar()
     }
 
-    private func setupNext() {
+    private func setupNavBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Дальше", style: .done, target: self, action: #selector(nextTapped))
     }
 

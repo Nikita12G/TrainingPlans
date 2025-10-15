@@ -9,7 +9,6 @@ import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    private let container = AppContainer()
 
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
@@ -19,6 +18,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         let navController = UINavigationController()
 
+        let container = AppContainer()
         let coordinator = AppCoordinator(
             navigationController: navController,
             container: container)

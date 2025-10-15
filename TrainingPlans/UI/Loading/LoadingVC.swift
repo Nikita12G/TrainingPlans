@@ -35,4 +35,9 @@ final class LoadingVC: UIViewController {
         
         activity.startAnimating()
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        activity.stopAnimating()
+    }
 }

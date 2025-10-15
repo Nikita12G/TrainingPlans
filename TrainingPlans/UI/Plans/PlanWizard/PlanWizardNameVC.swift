@@ -9,9 +9,27 @@ import UIKit
 
 final class PlanWizardNameVC: UIViewController {
     private let viewModel: PlanWizardNameVM
-    private lazy var titleField = UITextField()
-    private lazy var goalField = UITextField()
-
+    
+    private lazy var titleField: UITextField = {
+        let titleField = UITextField()
+        titleField.placeholder = "Название тренировки"
+        titleField.borderStyle = .roundedRect
+        return titleField
+    }()
+    private lazy var goalField: UITextField = {
+        let goalField = UITextField()
+        goalField.borderStyle = .roundedRect
+        goalField.placeholder = "Целевая группа мышц"
+        return goalField
+    }()
+    private lazy var stackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [titleField, goalField])
+        stack.axis = .vertical
+        stack.spacing = 12
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
     init(viewModel: PlanWizardNameVM) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -22,28 +40,18 @@ final class PlanWizardNameVC: UIViewController {
         super.viewDidLoad()
         title = "Шаг 1 — Название"
         view.backgroundColor = .systemYellow
-        setupFields()
-        setupNext()
-    }
-
-    private func setupFields() {
-        titleField.placeholder = "Название тренировки"
-        goalField.placeholder = "Целевая группа мышц"
-        titleField.borderStyle = .roundedRect
-        goalField.borderStyle = .roundedRect
-        let stack = UIStackView(arrangedSubviews: [titleField, goalField])
-        stack.axis = .vertical
-        stack.spacing = 12
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(stack)
+        view.addSubview(stackView)
+        
         NSLayoutConstraint.activate([
-            stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            stack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)
         ])
+        
+        setupNavBar()
     }
 
-    private func setupNext() {
+    private func setupNavBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Дальше", style: .done, target: self, action: #selector(nextTapped))
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Назад", style: .plain, target: nil, action: nil)
     }

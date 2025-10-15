@@ -10,7 +10,19 @@ import UIKit
 final class PlansListVC: UIViewController {
     private let viewModel: PlansListVM
     
-    private lazy var tableView = UITableView()
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.tableFooterView = UIView()
+        tableView.layer.cornerRadius = 12
+        tableView.clipsToBounds = true
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 44
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
     
     init(viewModel: PlansListVM) {
         self.viewModel = viewModel
@@ -25,16 +37,22 @@ final class PlansListVC: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(tableView)
         
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+        ])
+        
         viewModel.onPlansUpdated = { [weak self] _ in
             self?.tableView.reloadData()
         }
+        
         viewModel.onError = { error in
             print(error)
         }
         
-        setupTable()
         setupNavBar()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,26 +67,6 @@ final class PlansListVC: UIViewController {
             target: self,
             action: #selector(newTapped))
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Назад", style: .plain, target: nil, action: nil)
-    }
-    
-    private func setupTable() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
-        ])
-        
-        tableView.tableFooterView = UIView()
-        tableView.layer.cornerRadius = 12
-        tableView.clipsToBounds = true
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 44
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     @objc
