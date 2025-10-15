@@ -6,7 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		A16C17D62E9F8083007C0425 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A18B9C9F2E93EC7B009ED615 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A18B9CA62E93EC7B009ED615;
+			remoteInfo = TrainingPlans;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		A16C17D22E9F8083007C0425 /* TrainingPlansUnitTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrainingPlansUnitTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A18B9CA72E93EC7B009ED615 /* TrainingPlans.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrainingPlans.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -21,6 +32,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		A16C17D32E9F8083007C0425 /* TrainingPlansTest */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TrainingPlansTest;
+			sourceTree = "<group>";
+		};
 		A18B9CA92E93EC7B009ED615 /* TrainingPlans */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -32,6 +48,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A16C17CF2E9F8083007C0425 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A18B9CA42E93EC7B009ED615 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -46,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				A18B9CA92E93EC7B009ED615 /* TrainingPlans */,
+				A16C17D32E9F8083007C0425 /* TrainingPlansTest */,
 				A18B9CA82E93EC7B009ED615 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				A18B9CA72E93EC7B009ED615 /* TrainingPlans.app */,
+				A16C17D22E9F8083007C0425 /* TrainingPlansUnitTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,6 +86,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A16C17D12E9F8083007C0425 /* TrainingPlansUnitTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A16C17DA2E9F8083007C0425 /* Build configuration list for PBXNativeTarget "TrainingPlansUnitTest" */;
+			buildPhases = (
+				A16C17CE2E9F8083007C0425 /* Sources */,
+				A16C17CF2E9F8083007C0425 /* Frameworks */,
+				A16C17D02E9F8083007C0425 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A16C17D72E9F8083007C0425 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A16C17D32E9F8083007C0425 /* TrainingPlansTest */,
+			);
+			name = TrainingPlansUnitTest;
+			packageProductDependencies = (
+			);
+			productName = TrainingPlansUnitTest;
+			productReference = A16C17D22E9F8083007C0425 /* TrainingPlansUnitTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		A18B9CA62E93EC7B009ED615 /* TrainingPlans */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A18B9CBA2E93EC7E009ED615 /* Build configuration list for PBXNativeTarget "TrainingPlans" */;
@@ -93,6 +141,10 @@
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					A16C17D12E9F8083007C0425 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = A18B9CA62E93EC7B009ED615;
+					};
 					A18B9CA62E93EC7B009ED615 = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -113,11 +165,19 @@
 			projectRoot = "";
 			targets = (
 				A18B9CA62E93EC7B009ED615 /* TrainingPlans */,
+				A16C17D12E9F8083007C0425 /* TrainingPlansUnitTest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A16C17D02E9F8083007C0425 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A18B9CA52E93EC7B009ED615 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -128,6 +188,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A16C17CE2E9F8083007C0425 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A18B9CA32E93EC7B009ED615 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,7 +204,55 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		A16C17D72E9F8083007C0425 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A18B9CA62E93EC7B009ED615 /* TrainingPlans */;
+			targetProxy = A16C17D62E9F8083007C0425 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		A16C17D82E9F8083007C0425 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = HDWNKQ472C;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NikitaTest.TrainingPlansUnitTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TrainingPlans.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TrainingPlans";
+			};
+			name = Debug;
+		};
+		A16C17D92E9F8083007C0425 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = HDWNKQ472C;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NikitaTest.TrainingPlansUnitTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TrainingPlans.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TrainingPlans";
+			};
+			name = Release;
+		};
 		A18B9CBB2E93EC7E009ED615 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -245,6 +360,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -308,6 +424,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -332,6 +449,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A16C17DA2E9F8083007C0425 /* Build configuration list for PBXNativeTarget "TrainingPlansUnitTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A16C17D82E9F8083007C0425 /* Debug */,
+				A16C17D92E9F8083007C0425 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A18B9CA22E93EC7B009ED615 /* Build configuration list for PBXProject "TrainingPlans" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
